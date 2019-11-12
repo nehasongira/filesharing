@@ -31,7 +31,7 @@ export class AppComponent {
                     for (var i = 0; i < len; i++) {
                         view[i] = binary.charCodeAt(i);
                     }
-                          var blob = new Blob( [view], { type: "application/pdf" });
+                          var blob = new Blob( [view],);
                           var download = document.querySelector( "a[ download ]" );
                           var downloadUrl = URL.createObjectURL(blob);
                           download.setAttribute( "href", downloadUrl );
