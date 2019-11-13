@@ -9,7 +9,7 @@ import {WebSocketService} from "./services/websocket.service";
     styleUrls: ['./app.component.css']
 })
 export class AppComponent {
-  private base64string:String="abc";
+ private base64string:String="abc";
   private base64str:String=" ";
     public notifications = 0;
    private stompClient;
@@ -53,25 +53,27 @@ export class AppComponent {
       reader.onload=(function(theFile){
         return function(e){
           var binaryData=e.target.result;
-          this.base64string=window.btoa(binaryData);
+          var base64string=window.btoa(binaryData);
           document.getElementById('base64').innerHTML = this.base64string;
            console.log(this.base64string);
-           this.base64str = this.base64string;
+           //window.base64str = base64string;
            //this.stompClient.send("/app/send/message" , {}, this.base64string);
-         
+          // this.sendMessage(this.base64string);
         }
+        
       })
-      // this.sendMessage(this.base64string);
+       //this.sendMessage(this.base64string);
       (f);
       reader.readAsBinaryString(f);
      // console.log(this.base64string);
       //this.sendMessage(this.base64string);
     }
     
-    sendMessage(){
+    sendMessage(message){
       console.log('inside method');
       console.log(this.base64string);
-        this.stompClient.send("/app/send/message" , {}, "");
+      var base64str=message;
+        this.stompClient.send("/app/send/message" , {}, base64str);
 
     //    // console.log(message);
     //     //  $('#input').val('');
