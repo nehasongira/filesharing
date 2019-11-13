@@ -13,6 +13,7 @@ export class AppComponent {
   private base64str:String=" ";
     public notifications = 0;
    private stompClient;
+   private message: string;
     constructor(private webSocketService: WebSocketService) {
 
         this.stompClient = this.webSocketService.connect();
@@ -48,14 +49,19 @@ export class AppComponent {
         
     }
     handleFileSelect(evt){
+      
       var f=evt.target.files[0];
       var reader=new FileReader();
+      let self = this;
       reader.onload=(function(theFile){
+        let me = self;
         return function(e){
           var binaryData=e.target.result;
           var base64string=window.btoa(binaryData);
-          document.getElementById('base64').innerHTML = this.base64string;
-           console.log(this.base64string);
+          document.getElementById('base64').innerHTML = base64string;
+          //  console.log(base64string);
+           me.message = base64string;
+          //  console.log(me.message)
            //window.base64str = base64string;
            //this.stompClient.send("/app/send/message" , {}, this.base64string);
           // this.sendMessage(this.base64string);
@@ -71,9 +77,10 @@ export class AppComponent {
     
     sendMessage(message){
       console.log('inside method');
-      console.log(this.base64string);
+      console.log(this.message)
+      // console.log(this.base64string);
       var base64str=message;
-        this.stompClient.send("/app/send/message" , {}, base64str);
+        this.stompClient.send("/app/send/message" , {}, this.message);
 
     //    // console.log(message);
     //     //  $('#input').val('');
